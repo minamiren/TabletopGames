@@ -4,7 +4,7 @@
   "matchups" : 1,
   "verbose" : false,
   "seed" : 740234,
-  "playerDirectory" : "json/players/compression/spares",
+  "playerDirectory" : "json/players/compression/graphsearch/poker",
   "listener" : "json/listeners/mctslistener.json",
   "destDir" : "outputdir/poker"
 }
