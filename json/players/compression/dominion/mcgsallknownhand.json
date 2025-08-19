@@ -1,0 +1,17 @@
+{
+  "class" : "players.mcts.MCTSParams",
+  "budgetType" : "BUDGET_ITERATIONS",
+  "opponentTreePolicy": "MCGSSelfOnly",
+  "MCGSStateKey" : {
+    "class" : "games.dominion.metrics.AllKnownCardsKey",
+    "args" : []
+  },
+  "rolloutLength": 30,
+  "budget" : 1000,
+  "K": 1,
+  "exploreEpsilon": 0.3,
+  "treePolicy": "UCB_Tuned",
+  "rolloutType": "RANDOM",
+  "information" : "Information_Set"
+}
+

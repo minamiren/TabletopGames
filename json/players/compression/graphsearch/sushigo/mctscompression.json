@@ -1,0 +1,10 @@
+{
+  "class" : "players.mcts.MCTSParams",
+  "compressionFactorKey" : {
+    "class" : "games.sushigo.metrics.PlayedCardsKey",
+    "args" : []
+  },
+  "budgetType" : "BUDGET_ITERATIONS",
+  "budget" : 1000,
+  "information" : "Information_Set"
+}

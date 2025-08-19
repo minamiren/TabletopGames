@@ -1,0 +1,16 @@
+{
+  "class" : "players.mcts.MCTSParams",
+  "budgetType" : "BUDGET_ITERATIONS",
+  "opponentTreePolicy": "MCGSSelfOnly",
+  "MCGSStateKey" : {
+    "class" : "games.poker.metrics.PlayerCardsKey",
+    "args" : []
+  },
+  "rolloutLength": 30,
+  "budget" : 1000,
+  "K": 1,
+  "exploreEpsilon": 0.1,
+  "treePolicy": "UCB_Tuned",
+  "rolloutType": "RANDOM",
+  "information" : "Information_Set"
+}

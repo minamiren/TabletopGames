@@ -1,0 +1,11 @@
+{
+  "class" : "players.mcts.MCTSParams",
+  "opponentTreePolicy": "MCGSSelfOnly",
+  "MCGSStateKey" : {
+    "class" : "games.poker.metrics.PlayerCardsKey",
+    "args" : []
+  },
+  "budgetType" : "BUDGET_ITERATIONS",
+  "budget" : 1000,
+  "information" : "Information_Set"
+}

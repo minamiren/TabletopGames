@@ -1,0 +1,15 @@
+{
+  "class" : "players.mcts.MCTSParams",
+  "budgetType" : "BUDGET_ITERATIONS",
+  "MCGSStateKey" : {
+    "class" : "games.sushigo.metrics.PlayerHandCardsKey",
+    "args" : []
+  },
+  "rolloutLength": 30,
+  "budget" : 50,
+  "K": 1,
+  "exploreEpsilon": 0.1,
+  "treePolicy": "UCB_Tuned",
+  "rolloutType": "RANDOM",
+  "information" : "Information_Set"
+}
