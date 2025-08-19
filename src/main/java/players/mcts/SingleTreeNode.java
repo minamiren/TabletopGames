@@ -512,9 +512,7 @@ public class SingleTreeNode {
             if (nextNode == null) {
                 return cur.expandNode(chosen, cur.openLoopState);
             }
-            // ren should we then also do this here
             if(params.compressionFactorKey != null)
-                // ren ask about this why is nextnode state sometimes null. is this a leaf?
                 addToNodeTranspositionTable(nextNode, nextNode.openLoopState);
             cur = nextNode;
         }

@@ -131,9 +131,6 @@ public class MCGSNode extends SingleTreeNode {
         for (int i = nRoot.trajectory.size() - 1; i >= 0; i--) {
             Object key = nRoot.trajectory.get(i);
             MCGSNode node = nRoot.transpositionMap.get(key);
-            // ren - why do we expect this key to be in the transposition map when we didnt
-            // necessarily add it to the transposition table in the first place????????
-            // is the root node being redeterminized?
             AbstractAction action = nRoot.actionsInTree.get(i).b;
             if (node == null) {
                 throw new AssertionError("Node should not be null");
