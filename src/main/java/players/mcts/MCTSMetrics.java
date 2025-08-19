@@ -1,6 +1,7 @@
 package players.mcts;
 
 import core.AbstractPlayer;
+import core.actions.AbstractAction;
 import core.interfaces.IGameEvent;
 import evaluation.listeners.MetricsGameListener;
 import evaluation.metrics.AbstractMetric;
@@ -8,7 +9,6 @@ import evaluation.metrics.Event;
 import evaluation.metrics.IMetricsCollection;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class MCTSMetrics implements IMetricsCollection {
 
@@ -51,6 +51,10 @@ public class MCTSMetrics implements IMetricsCollection {
                 records.put("copyCalls", mctsPlayer.root.copyCount / visits);
                 records.put("time", mctsPlayer.root.timeTaken);
                 records.put("initTime", mctsPlayer.root.initialisationTimeTaken);
+                records.put("TotalStates", treeStats.totalStates);
+                records.put("MeanStatesPerNode", treeStats.meanStatesPerNode);
+                records.put("WeightedMeanStatesPerNode", treeStats.weightedMeanStatesPerNode);
+                records.put("StatsForFullTree",String.join(",", treeStats.stateVisitDepthPerNode));
                 return true;
             }
             return false;
@@ -85,6 +89,10 @@ public class MCTSMetrics implements IMetricsCollection {
             cols.put("copyCalls", Integer.class);
             cols.put("time", Double.class);
             cols.put("initTime", Double.class);
+            cols.put("TotalStates", Integer.class);
+            cols.put("MeanStatesPerNode", Double.class);
+            cols.put("WeightedMeanStatesPerNode", Double.class);
+            cols.put("StatsForFullTree", String.class);
             return cols;
         }
     }

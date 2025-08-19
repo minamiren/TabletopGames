@@ -12,7 +12,6 @@ import utilities.JSONUtils;
 import java.util.Arrays;
 import java.util.Random;
 
-import static java.util.Collections.emptyList;
 import static players.mcts.MCTSEnums.Information.*;
 import static players.mcts.MCTSEnums.MASTType.*;
 import static players.mcts.MCTSEnums.OpponentTreePolicy.OneTree;
@@ -59,6 +58,7 @@ public class MCTSParams extends PlayerParameters {
     public IStateHeuristic heuristic = AbstractGameState::getHeuristicScore;
     public IActionKey MASTActionKey;
     public IStateKey MCGSStateKey;
+    public IStateKey compressionFactorKey;
     public boolean MCGSExpandAfterClash = true;
     public double firstPlayUrgency = 1e6;
     @NotNull public IActionHeuristic actionHeuristic = IActionHeuristic.nullReturn;
@@ -111,6 +111,7 @@ public class MCTSParams extends PlayerParameters {
         addTunableParameter("MASTActionKey", IActionKey.class);
         addTunableParameter("MASTDefaultValue", 0.0);
         addTunableParameter("MCGSStateKey", IStateKey.class);
+        addTunableParameter("compressionFactorKey", IStateKey.class);
         addTunableParameter("MCGSExpandAfterClash", true);
         addTunableParameter("FPU", 1e6);
         addTunableParameter("actionHeuristic", IActionHeuristic.class,  IActionHeuristic.nullReturn);
@@ -168,6 +169,7 @@ public class MCTSParams extends PlayerParameters {
         actionHeuristic = (IActionHeuristic) getParameterValue("actionHeuristic");
         heuristic = (IStateHeuristic) getParameterValue("heuristic");
         MCGSStateKey = (IStateKey) getParameterValue("MCGSStateKey");
+        compressionFactorKey = (IStateKey) getParameterValue("compressionFactorKey");
         MCGSExpandAfterClash = (boolean) getParameterValue("MCGSExpandAfterClash");
         rolloutPolicyParams = (TunableParameters) getParameterValue("rolloutPolicyParams");
         opponentModelParams = (TunableParameters) getParameterValue("opponentModelParams");

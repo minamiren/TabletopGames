@@ -86,14 +86,13 @@ public class MCGSNode extends SingleTreeNode {
             // We only track this while in the tree (we could do the rollout as well, but at the overhead
             // of featureVector calculations
             MCGSNode mcgsRoot = (MCGSNode) root;
-            Object key = params.MCGSStateKey.getKey(gs);
+            Object key = params.MCGSStateKey.getKey(gs); // ren - why is this key differnt from root?
             // special case at root when we *expect* the key to be different on several iterations through
             // because we are redeterminising from a perspective other than the decisionPlayer
             if (this == mcgsRoot && mcgsRoot.trajectory.isEmpty() && decisionPlayer != redeterminisationPlayer && redeterminisationPlayer != -1) {
                 key = params.MCGSStateKey.getKey(gs, redeterminisationPlayer);
             }
             mcgsRoot.trajectory.add(key);
-//            System.out.println("Adding to trajectory: " + key);
         }
         super.advanceState(gs, act, inRollout);
     }
@@ -132,6 +131,9 @@ public class MCGSNode extends SingleTreeNode {
         for (int i = nRoot.trajectory.size() - 1; i >= 0; i--) {
             Object key = nRoot.trajectory.get(i);
             MCGSNode node = nRoot.transpositionMap.get(key);
+            // ren - why do we expect this key to be in the transposition map when we didnt
+            // necessarily add it to the transposition table in the first place????????
+            // is the root node being redeterminized?
             AbstractAction action = nRoot.actionsInTree.get(i).b;
             if (node == null) {
                 throw new AssertionError("Node should not be null");

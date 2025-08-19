@@ -24,6 +24,10 @@ public class TreeStatistics {
     public double meanActionsAtNode;
     public double meanActionsExpanded;
     public int oneActionNodes;
+    public int totalStates;
+    public double meanStatesPerNode;
+    public double weightedMeanStatesPerNode;
+    public List<String> stateVisitDepthPerNode = new ArrayList<String>();
 
 
     public void mcgsStats(MCGSNode root) {
@@ -78,6 +82,9 @@ public class TreeStatistics {
         int totalActions = 0;
         int expandedActions = 0;
         int oneAction = 0;
+        double weightedTotalStates = 0.0;
+
+
         while (!nodeQueue.isEmpty()) {
             SingleTreeNode node = nodeQueue.poll();
             if (node.depth < maxDepth) {
@@ -91,6 +98,9 @@ public class TreeStatistics {
                     oneAction++;
                 if (node.actionValues.size() > maxActions)
                     maxActions = node.actionValues.size();
+                totalStates += node.stateMap.size();
+                weightedTotalStates += node.nVisits * node.stateMap.size();
+
                 for (SingleTreeNode child : node.children.values().stream()
                         .filter(Objects::nonNull)
                         .flatMap(Arrays::stream)
@@ -102,6 +112,12 @@ public class TreeStatistics {
                 if (node.actionValues.values().stream().allMatch(stats -> stats.nVisits <= root.params.initialiseVisits))
                     leavesAtDepth[node.depth]++;
             }
+
+            if (root.params.compressionFactorKey != null) {
+                String triplet = node.stateMap.size() + " " + (node.nVisits + 1) + " " + node.depth;
+                stateVisitDepthPerNode.add(triplet);
+            }
+
             if (node.depth > greatestDepth)
                 greatestDepth = node.depth;
         }
@@ -111,6 +127,9 @@ public class TreeStatistics {
         totalNodes = Arrays.stream(nodesAtDepth).sum();
         oneActionNodes = oneAction;
         totalLeaves = Arrays.stream(leavesAtDepth).sum();
+        meanStatesPerNode = (double)totalStates/totalNodes;
+        weightedTotalStates = weightedTotalStates;
+        weightedMeanStatesPerNode = weightedTotalStates/totalNodes;
 
         meanActionsAtNode = (double) totalActions / totalNodes;
         meanActionsExpanded = (double) expandedActions / Math.max(totalNodes - totalLeaves, 1);

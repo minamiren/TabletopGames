@@ -2,7 +2,6 @@ package players.mcts;
 
 import core.*;
 import core.actions.AbstractAction;
-import core.actions.DoNothing;
 import core.interfaces.IActionHeuristic;
 import players.PlayerConstants;
 import utilities.*;
@@ -79,6 +78,9 @@ public class SingleTreeNode {
     protected List<Pair<Integer, AbstractAction>> actionsInTree;
     List<Pair<Integer, AbstractAction>> actionsInRollout;
 
+    // transposition map for open loop tracking
+    protected Map<Object, SingleTreeNode> stateMap = new HashMap<>();
+
     protected SingleTreeNode() {
     }
 
@@ -144,7 +146,16 @@ public class SingleTreeNode {
 
         // then set up available actions, and set openLoopState
         setActionsFromOpenLoopState(rootState);
+        if(params.compressionFactorKey != null) {
+            addToNodeTranspositionTable(this, openLoopState);
+        }
+    }
 
+//    if the abstraction finds a new state, add it to the table
+//    node data and state visits will be returned with metrics
+    private void addToNodeTranspositionTable(SingleTreeNode node, AbstractGameState keyState) {
+        Object key = params.compressionFactorKey.getKey(keyState);
+        node.stateMap.put(key, node);
     }
 
     public void rootify(SingleTreeNode template, AbstractGameState newState) {
@@ -501,6 +512,10 @@ public class SingleTreeNode {
             if (nextNode == null) {
                 return cur.expandNode(chosen, cur.openLoopState);
             }
+            // ren should we then also do this here
+            if(params.compressionFactorKey != null)
+                // ren ask about this why is nextnode state sometimes null. is this a leaf?
+                addToNodeTranspositionTable(nextNode, nextNode.openLoopState);
             cur = nextNode;
         }
         return cur;

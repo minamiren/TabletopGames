@@ -3,6 +3,5 @@
   "selfPlay": false,
   "nPlayers": 4,
   "matchups": 1000,
-  "listener": "metrics/gamemetrics.json",
   "reportPeriod": 100
 }

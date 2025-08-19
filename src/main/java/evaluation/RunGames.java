@@ -7,23 +7,15 @@ import evaluation.listeners.IGameListener;
 import evaluation.tournaments.RoundRobinTournament;
 import evaluation.tournaments.SkillGrid;
 import games.GameType;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import games.connect4.metrics.Deterministic;
 import players.PlayerFactory;
 import players.PlayerType;
-import players.basicMCTS.BasicMCTSPlayer;
+import players.mcts.MCTSParams;
 import players.mcts.MCTSPlayer;
-import players.rmhc.RMHCPlayer;
-import players.simple.OSLAPlayer;
 import players.simple.RandomPlayer;
 import utilities.Pair;
-import utilities.Utils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -66,11 +58,16 @@ public class RunGames implements IGameRunner {
         if (!runGames.config.get(playerDirectory).equals("")) {
             agents.addAll(PlayerFactory.createPlayers((String) runGames.config.get(playerDirectory)));
         } else {
-       //     agents.add(new MCTSPlayer());
-            agents.add(new BasicMCTSPlayer());
+            MCTSParams params = new MCTSParams();
+            // this only works for connect4
+            params.compressionFactorKey = new Deterministic();
+//            System.out.println("Compression factor key: "+params.compressionFactorKey);
+            agents.add(new MCTSPlayer(params));
+//            agents.add(new BasicMCTSPlayer());
+//            agents.add(new RandomPlayer());
             agents.add(new RandomPlayer());
-            agents.add(new RMHCPlayer());
-            agents.add(new OSLAPlayer());
+//            agents.add(new RMHCPlayer());
+//            agents.add(new OSLAPlayer());
         }
         runGames.agents = agents;
 
